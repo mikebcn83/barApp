@@ -1,0 +1,12 @@
+{
+  "name": "appmovil",
+  "displayName": "appmovil",
+  "expo": {
+    "name": "appmovil",
+    "slug": "appmovil",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
