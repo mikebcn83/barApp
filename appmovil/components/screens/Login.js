@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function Login() {
+
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
@@ -32,10 +33,9 @@ export default function Login() {
       setShowLogo(true);
     }
   };
-  
 
   const login = () => {
-    console.warn("Logged");
+    this.props.navigation.navigate("InterfaceUser");
   };
 
   return (
@@ -50,8 +50,8 @@ export default function Login() {
 
         <TextInput
           style={styles.input}
-          onFocus={()=>showLog}
-          onEndEditing={()=>showLog}
+          onFocus={() => showLog}
+          onEndEditing={() => showLog}
           placeholder="Email"
           placeholderTextColor="#B4ACA5"
           returnKeyType="next"
@@ -97,6 +97,7 @@ export default function Login() {
     </View>
   );
 }
+export default Login;
 
 const styles = StyleSheet.create({
   container: {

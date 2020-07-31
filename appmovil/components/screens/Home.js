@@ -14,7 +14,7 @@ import Login from "./Login";
 
 const Home = ({ navigation }) => {
   const [tab, setTab] = useState(0);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -33,6 +33,7 @@ const Home = ({ navigation }) => {
   const _keyboardDidHide = () => {
     setVisible(true);
   };
+  
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -41,7 +42,7 @@ const Home = ({ navigation }) => {
         {visible == true ? <Image style={styles.logo} source={logo} /> : null}
       </View>
 
-      <View style={styles.secondView}>{tab == 0 ? <Login /> : <SignUp />}</View>
+      <View style={styles.secondView}>{tab == 0 ? <Login {...navigation} /> : <SignUp />}</View>
 
       <MaterialTabs
         items={["Sign In", "Create Account"]}
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    top: 100,
+    top: "10%",
   },
   secondView: {
     margin: 15,
