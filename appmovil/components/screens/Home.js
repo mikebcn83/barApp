@@ -42,7 +42,7 @@ const Home = ({ navigation }) => {
         {visible == true ? <Image style={styles.logo} source={logo} /> : null}
       </View>
 
-      <View style={styles.secondView}>{tab == 0 ? <Login {...navigation} /> : <SignUp />}</View>
+      <View style={styles.secondView}>{tab == 0 ? <Login /> : <SignUp />}</View>
 
       <MaterialTabs
         items={["Sign In", "Create Account"]}
