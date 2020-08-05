@@ -1,0 +1,35 @@
+.orderItems {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+.orderItems label {
+    padding-left: 1rem;
+    margin: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: #C9C9C4 0.5px solid;
+    display: flex;
+    align-items: center;
+    color: #4F4D4C;
+}
+
+.orderItems input{
+  margin-right: 0.5rem;
+
+}
+
+label:hover {
+  cursor: pointer;
+}
+
+.plate{
+  font-family: Quicksand;
+}
+
+.redDot{
+  border: #C45C4C 2px solid;
+  border-radius: 2px;
+  margin: 0.5rem;
+}
+
