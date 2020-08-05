@@ -6,6 +6,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
+  TouchableOpacity, Text,
 } from "react-native";
 import MaterialTabs from "react-native-material-tabs";
 import logo from "../../images/logo.png";
@@ -33,7 +34,10 @@ const Home = ({ navigation }) => {
   const _keyboardDidHide = () => {
     setVisible(true);
   };
-  
+
+  const login = () => {
+    navigation.navigate("InterfaceUser");
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -53,6 +57,9 @@ const Home = ({ navigation }) => {
         activeTextColor="#df5c4a"
         inactiveTextColor="#E9E1DA"
       />
+       <TouchableOpacity style={styles.button} onPress={login}>
+          <Text style={styles.stylesText}> Login </Text>
+        </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 };

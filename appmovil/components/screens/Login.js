@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-
-function Login() {
+const Login = ({ navigation }) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
@@ -35,7 +34,7 @@ function Login() {
   };
 
   const login = () => {
-    this.props.navigation.navigate("InterfaceUser");
+    navigation.navigate("InterfaceUser");
   };
 
   return (

@@ -17,64 +17,66 @@ const InterfaceUser = ({ navigation }) => {
   // const openModal = () => {
   //   setModal(!modal);
   // };
+  const toScan = () => {
+    navigation.navigate("scanQR");
+  };
+
+  const FindBar = () => {
+    navigation.navigate("FindBar");
+  };
 
   return (
     <View style={styles.MainContainer}>
       <StatusBar barStyle="dark-content" />
 
-      <TouchableOpacity style={styles.ViewBalance} >
-          {/* <Text style={styles.stylesText}> Login </Text> */}
-        </TouchableOpacity>
-
-      {/* <View style={styles.FirstView}>
+      <View style={styles.FirstView}>
         <Image
           source={require("../../images/logo.png")}
           style={styles.LogoStyle}
         />
       </View>
       <View style={styles.SecondView}>
-        <TouchableOpacity style={styles.ViewBalance}>
-          {" "}
+        <TouchableOpacity style={styles.ViewBalance} onPress={FindBar} >
           <Image
-            source={require("../assets/images/wallet.png")}
+            source={require("../assets/images/buscar.png")}
+            style={styles.ImageIconStyle}
+          />
+          <Image
+            source={require("../assets/images/cubiertos.png")}
             style={styles.ImageIconStyle}
           />
         </TouchableOpacity>
+        <Text style={styles.TextStyle}> Find your Bar </Text>
       </View>
 
       <View style={styles.ThirdView}>
         <View>
-          <TouchableOpacity
-            style={styles.ViewObject1}
-          >
+          <TouchableOpacity style={styles.ViewObject1} onPress={toScan}>
             <Image
               source={require("../assets/images/qr.png")}
               style={styles.ImageIconStyle2}
             />
           </TouchableOpacity>
 
-          <Text style={styles.TextStyle}> Show ID </Text>
+          <Text style={styles.TextStyle}> Get your Table </Text>
         </View>
 
         <View>
-          <TouchableOpacity
-            style={styles.ViewObject2}
-            // onPress={() => navigation.navigate("ShowID")}
-          >
+          <TouchableOpacity style={styles.ViewObject2}>
             <Image
-              source={require("../assets/images/greencatpay.png")}
+              source={require("../assets/images/book.png")}
               style={styles.ImageIconStyle3}
             />
           </TouchableOpacity>
 
-          <Text style={styles.TextStyle}>GreenCat Pay</Text>
+          <Text style={styles.TextStyle}> Orders </Text>
         </View>
       </View>
-      <View style={styles.FourthView}>
+      {/* <View style={styles.FourthView}>
         <View>
           <TouchableOpacity
             style={styles.ViewObject3}
-            onPress={() => navigation.navigate("RecyclingHistory")}
+            // onPress={() => navigation.navigate("RecyclingHistory")}
           >
             <Image
               source={require("../assets/images/reciclaje.png")}
@@ -108,65 +110,52 @@ export default InterfaceUser;
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    justifyContent: "space-evenly",
   },
   LogoStyle: {
-    marginTop: 25,
-    marginLeft: 25,
-    width: 162,
-    height: 42,
+    marginTop: 15,
+    width: 100,
+    height: 100,
   },
 
   FirstView: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
 
   SecondView: {
-    flex: 2,
     alignItems: "center",
-    justifyContent: "center",
-    marginTop: 90,
+    marginTop: 60,
   },
 
   ThirdView: {
-    flex: 3,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginTop: 70,
+    marginTop: 80,
   },
   FourthView: {
     flex: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginBottom: 130,
-  },
-
-  TextBalance: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-    marginTop: 20,
+    marginBottom: 100,
+    marginTop: 40,
   },
 
   ViewBalance: {
+    flexDirection: "row",
+    alignItems: "center",
     borderRadius: 20,
-    backgroundColor: "#8ec033",
-    fontWeight: "bold",
-    fontSize: 20,
+    backgroundColor: "#E34C36",    
     width: 320,
-    height: 170,
-    padding: 5,
+    height: 150,
+    padding: 0,
   },
 
   ViewObject1: {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    backgroundColor: "#adc089",
+    backgroundColor: "#D15C4B",
     fontWeight: "bold",
     fontSize: 20,
     width: 150,
@@ -178,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    backgroundColor: "#156c5c",
+    backgroundColor: "#BF4A3A",
     fontWeight: "bold",
     fontSize: 20,
     width: 150,
@@ -190,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    backgroundColor: "#8da463",
+    backgroundColor: "#FF988B",
     fontWeight: "bold",
     fontSize: 20,
     width: 150,
@@ -202,18 +191,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    backgroundColor: "#5ba35b",
+    backgroundColor: "#CB1700",
     fontWeight: "bold",
     fontSize: 20,
     width: 150,
     height: 130,
     padding: 5,
   },
-
   ImageIconStyle: {
     width: 90,
     height: 80,
     margin: 10,
+  },
+  ImageIconStyle: {
+    margin: 18
+    
   },
 
   ImageIconStyle2: {
@@ -222,7 +214,7 @@ const styles = StyleSheet.create({
   },
 
   ImageIconStyle3: {
-    width: 80,
+    width: 120,
     height: 95,
   },
 
@@ -237,7 +229,7 @@ const styles = StyleSheet.create({
   },
 
   TextStyle: {
-    color: "#8ec033",
+    color: "#711B10",
     textAlign: "center",
     fontWeight: "bold",
   },

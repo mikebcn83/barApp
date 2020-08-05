@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 // import { Provider } from 'react-redux';
 // import { store } from './redux/store';
-import {Home, InterfaceUser, Login} from './components/screens';
+import {Home, InterfaceUser, Login, scanQR, FindBar} from './components/screens';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +29,20 @@ export default function App() {
         <Stack.Screen
           name="InterfaceUser"
           component={InterfaceUser}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="scanQR"
+          component={scanQR}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="FindBar"
+          component={FindBar}
           options={{
             headerShown: false
           }}
