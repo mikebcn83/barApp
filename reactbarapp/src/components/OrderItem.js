@@ -3,7 +3,7 @@ import "./OrderItem.css";
 import { useCollection } from "react-firebase-hooks/firestore";
 import firebase from "@firebase/app";
 
-export default function OrderItem({id, done}) {
+export default function OrderItem({id, done, quantity}) {
 
   //cargamos los platos
   let [plates, loading, error] = useCollection(firebase.firestore().collection(`/bars/testbar/menu`));
@@ -29,9 +29,11 @@ export default function OrderItem({id, done}) {
 
   return (
     <label>
+      <span className="quantity">x{quantity}</span>
       <input type="checkbox" checked={done} onChange={()=> {
       firebase.firestore().collection(`/bars/testbar/tables/${numTable}/orderItems`).doc(id).update({done: !done})}}/>      
-      <span className="plate">{name}</span> <span className="redDot"/> {price}€
+      <span className="plate">{name}</span>
+      <span className="redDot"/> {price}€
     </label>
   );
 }
