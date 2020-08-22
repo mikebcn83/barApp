@@ -1,42 +1,41 @@
 .orderItems {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
 
 .orderItems label {
-    padding-left: 1rem;
-    margin: 0.5rem;
-    padding-bottom: 1rem;
-    border-bottom: #C9C9C4 0.5px solid;
-    display: flex;
-    align-items: center;
-    color: #4F4D4C;
+  padding-left: 1rem;
+  margin: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: #c9c9c4 0.5px solid;
+  display: flex;
+  align-items: center;
+  color: #4f4d4c;
 }
 
-.orderItems input{
+.orderItems input {
   margin-right: 0.5rem;
-
 }
 
-label:hover {
+.orderItems label:hover {
   cursor: pointer;
 }
 
-.quantity{
+.quantity {
   /*monospaced font !! para que quede alineado verticalmente*/
-  font-family: 'DM Mono';
-  color:#C45C4C;
+  font-family: "DM Mono";
+  color: #c45c4c;
   padding-right: 0.2rem;
 }
 
-.plate{
+.plate {
   font-family: Quicksand;
 }
 
-.redDot{
-  border: #C45C4C 2px solid;
+.redDot {
+  border: #c45c4c 2px solid;
   border-radius: 2px;
   margin: 0.5rem;
 }
-

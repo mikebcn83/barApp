@@ -1,0 +1,31 @@
+.tables {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.table {
+  font-size: x-large;
+  text-decoration: none;
+  padding: 2rem;
+  margin: 3rem;
+  border-radius: 2rem;
+  color: white;
+  text-align: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.occupied {
+  background-color: #c45c4c;
+}
+
+.occupied:hover {
+  background-color: rgb(195, 91, 75, 0.75);
+}
+
+.free {
+  background-color: rgb(92, 151, 92);
+}

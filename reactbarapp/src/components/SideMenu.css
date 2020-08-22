@@ -1,0 +1,41 @@
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  border-right: #c9c9c4 0.5px solid;
+  padding: 0 2rem;
+  margin: 2rem 0;
+}
+
+.logo {
+  height: 5rem;
+  width: 5rem;
+  align-self: center;
+}
+
+h2 {
+  text-align: center;
+  font-family: Quicksand;
+}
+
+.sideMenu p {
+  text-align: side;
+}
+
+.sideMenu .react-icon {
+  padding: 0 0.5rem;
+}
+
+.sideMenu .react-icon:hover {
+  cursor: pointer;
+}
+
+.sideMenu button {
+  padding: 0.2rem;
+  margin: 0;
+}
+
+.sideMenu span {
+  /*monospaced font !! para que quede alineado verticalmente*/
+  font-family: "DM Mono";
+}

@@ -1,0 +1,22 @@
+.header {
+  border-bottom: #c9c9c4 0.5px solid;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header span {
+  align-self: center;
+  color: #4f4d4c;
+  font-family: Montserrat;
+  text-decoration: underline;
+  padding-right: 0.5rem;
+}
+
+.header span:hover {
+  cursor: pointer;
+  color: #c9c9c4;
+}
+
+.header .react-icon:hover {
+  color: #c9c9c4;
+}

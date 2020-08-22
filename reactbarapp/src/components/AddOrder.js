@@ -1,12 +1,13 @@
 import React from "react";
-import "./OrderItem.css";
 import firebase from "@firebase/app";
 
 //version temporal para añadir perdidos
 
 export default function AddOrder() {
+  const user = localStorage.getItem("user");
+
   return (
-    <>
+    <div>
       <label>Table: </label>
       <select id="table" name="table">
         <option value="1">Table 1</option>
@@ -24,7 +25,7 @@ export default function AddOrder() {
         const table = document.getElementById("table").value;
         const plate = document.getElementById("plate").value;
 
-        const plateRef = firebase.firestore().collection(`/bars/testbar/tables/${table}/orderItems`).doc(plate);
+        const plateRef = firebase.firestore().collection(`/bars/${user}/tables/${table}/orderItems`).doc(plate);
 
         plateRef.get()
           .then((doc) => {
@@ -36,7 +37,7 @@ export default function AddOrder() {
               }, { merge: true })
 
             } else { //sino
-              firebase.firestore().doc(`/bars/testbar/tables/${table}`).update({
+              firebase.firestore().doc(`/bars/${user}/tables/${table}`).update({
                 occupied: true //aquí cambiamos el valor de la mesa a ocupada (por si no lo está)
               });
 
@@ -48,6 +49,6 @@ export default function AddOrder() {
           });
 
       })} />
-    </>
+    </div>
   );
 }
