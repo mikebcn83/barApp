@@ -28,8 +28,12 @@ export default function AddOrder() {
         const plateRef = firebase.firestore().collection(`/bars/${user}/tables/${table}/orderItems`).doc(plate);
 
         plateRef.get()
-          .then((doc) => {
-            if (doc.exists) { //si ya existe ese documento (plato)
+          .then((doc) => { //ocupamos la mesa (por si a caso no lo estaba)
+            firebase.firestore().doc(`/bars/${user}/tables/${table}`).update({
+              occupied: true 
+            });
+
+            if (doc.exists) { //si ya existe ese plato en la mesa
               let quant = doc.data().quantity + 1; //sumar 1 a cantidad
 
               plateRef.set({
@@ -37,10 +41,6 @@ export default function AddOrder() {
               }, { merge: true })
 
             } else { //sino
-              firebase.firestore().doc(`/bars/${user}/tables/${table}`).update({
-                occupied: true //aquí cambiamos el valor de la mesa a ocupada (por si no lo está)
-              });
-
               plateRef.set({
                 done: false,
                 quantity: 1 //aquí estamos creando un documento con el id del plate obtenido del select

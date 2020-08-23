@@ -26,6 +26,9 @@ export default function Tables() {
     return <div>Loading tables...</div>;
   }
 
+  sessionStorage.setItem("tablesLength", tables.docs.length); //guardamos/actualziamos el numero de mesas
+                                                              //se guarda cada vez que recargue la página
+
   return (
     <div>
       <h1>Tables</h1>

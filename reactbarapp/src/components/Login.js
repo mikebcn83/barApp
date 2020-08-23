@@ -1,16 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import logo from "../logo.png"
 import firebase from "@firebase/app";
 import { BsEyeFill, BsLockFill } from 'react-icons/bs';
 import { HiOutlineMail } from 'react-icons/hi';
-import TablesContext from '../TablesContext';
 
 export default function Login() {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const { setNumTables } = useContext(TablesContext);
 
     const db = firebase.firestore();
 
@@ -22,11 +20,7 @@ export default function Login() {
                         if (doc.data().password === password) {
                             localStorage.setItem("user", email); /*guardamos el user en el localstorage para que
                                                                 /se quede si cambiamos de ventana/cerramos el navegador*/
-
-                            db.collection(`/bars/${email}/tables`).get().then(snap => {
-                                let size = snap.size;
-                                setNumTables(size);
-                            });
+                            window.location.reload();
                         }
                         else alert("wrong password");
                     }
