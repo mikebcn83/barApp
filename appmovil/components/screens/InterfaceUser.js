@@ -18,16 +18,20 @@ const InterfaceUser = ({ navigation }) => {
   //   setModal(!modal);
   // };
   const toScan = () => {
-    navigation.navigate("scanQR");
+    navigation.navigate("ItemList");
   };
 
   const FindBar = () => {
     navigation.navigate("FindBar");
   };
 
+  const OrderList = () => {
+    navigation.navigate("OrderList");
+  };
+
   return (
     <View style={styles.MainContainer}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
       <View style={styles.FirstView}>
         <Image
@@ -62,7 +66,7 @@ const InterfaceUser = ({ navigation }) => {
         </View>
 
         <View>
-          <TouchableOpacity style={styles.ViewObject2}>
+          <TouchableOpacity style={styles.ViewObject2} onPress={OrderList}>
             <Image
               source={require("../assets/images/book.png")}
               style={styles.ImageIconStyle3}

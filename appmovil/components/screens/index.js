@@ -1,8 +1,12 @@
 import Home from './Home';
 import Login from './Login';
 import InterfaceUser from './InterfaceUser';
-import scanQR from './scanQR';
+import ScanQR from './ScanQR';
 import FindBar from './FindBar';
+import ItemList from './ItemList';
+import FinishOrder from './FinishOrder';
+import OrderList from './OrderList';
 
 
-export { Home, Login, InterfaceUser, scanQR, FindBar };
+
+export { Home, Login, InterfaceUser, ScanQR, FindBar, ItemList, FinishOrder, OrderList };
