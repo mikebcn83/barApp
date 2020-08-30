@@ -11,7 +11,7 @@ export default function TableScreen() {
   //cargamos la colección de orderItems
   const db = firebase.firestore();
   let [orderItems, loading, error] = useCollection(
-    db.collection(`/tables/${numTable}/orderItems`)
+    db.collection(`/bars/testbar/tables/${numTable}/orderItems`)
   );
   if (error) {
     return <div>Error: {JSON.stringify(error)}</div>;
@@ -35,9 +35,9 @@ export default function TableScreen() {
       </div>
       <button onClick={() => {
           if (window.confirm("Are you sure you are done with this table?")) {
-            db.doc(`/tables/${numTable}`).set({ occupied: false }); //1. poner la mesa como libre
+            db.doc(`/bars/testbar/tables/${numTable}`).set({ occupied: false }); //1. poner la mesa como libre
 
-            db.collection(`/tables/${numTable}/orderItems/`).get().then((res) => {
+            db.collection(`/bars/testbar/tables/${numTable}/orderItems/`).get().then((res) => {
                 res.forEach((element) => { //2. borrar coleccion de documentos orderItems
                   element.ref.delete();
                 });

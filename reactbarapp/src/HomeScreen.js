@@ -16,7 +16,7 @@ export default function HomeScreen() {
 
   //cargamos las mesas
   const db = firebase.firestore();
-  const [tables, loading, error] = useCollection(db.collection("tables"));
+  const [tables, loading, error] = useCollection(db.collection("/bars/testbar/tables"));
 
   if (error) {
     return <div>Error: {error.toString()}</div>;

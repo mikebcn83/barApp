@@ -23,6 +23,13 @@ label:hover {
   cursor: pointer;
 }
 
+.quantity{
+  /*monospaced font !! para que quede alineado verticalmente*/
+  font-family: 'DM Mono';
+  color:#C45C4C;
+  padding-right: 0.2rem;
+}
+
 .plate{
   font-family: Quicksand;
 }
