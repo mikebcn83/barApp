@@ -5,7 +5,7 @@ import App from './App';
 
 import firebase from '@firebase/app';
 import '@firebase/firestore';
-import firebaseConfig from './prova-conexio.json';
+import firebaseConfig from './barapp-connection.json';
 
 firebase.initializeApp(firebaseConfig);
 
