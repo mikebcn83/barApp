@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <View style={styles.firstView}>
         {visible == true ? <Image style={styles.logo} source={logo} /> : null}
       </View>

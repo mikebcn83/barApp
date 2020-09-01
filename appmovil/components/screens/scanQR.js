@@ -1,9 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import * as Permissions from 'expo-permissions';
 
-const scanQR = ({ navigation }) => {
+const ScanQR = ({ navigation }) => {
 
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -41,4 +40,4 @@ const scanQR = ({ navigation }) => {
     </View>
   );
 }
-export default scanQR;
+export default ScanQR;

@@ -48,7 +48,7 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
       <View>
         <Ionicons
