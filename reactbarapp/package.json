@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@firebase/app": "^0.6.9",
+    "@firebase/auth": "^0.14.9",
     "@firebase/firestore": "^1.16.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -12,8 +13,9 @@
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
     "react-icons": "^3.11.0",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
   },
   "scripts": {
     "start": "react-scripts start",

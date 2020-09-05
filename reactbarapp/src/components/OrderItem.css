@@ -23,6 +23,12 @@
   cursor: pointer;
 }
 
+.orderInfo {  
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
 .quantity {
   /*monospaced font !! para que quede alineado verticalmente*/
   font-family: "DM Mono";
@@ -34,8 +40,7 @@
   font-family: Quicksand;
 }
 
-.redDot {
-  border: #c45c4c 2px solid;
-  border-radius: 2px;
+.redS {
+  border: #c45c4c 1px solid;
   margin: 0.5rem;
 }

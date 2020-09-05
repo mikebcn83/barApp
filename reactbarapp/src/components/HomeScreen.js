@@ -1,15 +1,13 @@
 import React from "react";
-import Login from "./Login";
+
 import TablesList from "./TablesList";
 import SideMenu from "./SideMenu";
-import Header from "./Header"
+import Header from "./Header";
 
 export default function HomeScreen() {
     const user = localStorage.getItem("user");
 
-    if (user === null) return (<>
-        <Login />
-    </>);
+    if (!user) window.location.replace("/login");
 
     else return (
         <>

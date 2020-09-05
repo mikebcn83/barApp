@@ -24,6 +24,7 @@
 
 .occupied:hover {
   background-color: rgb(195, 91, 75, 0.75);
+  cursor: pointer;
 }
 
 .free {

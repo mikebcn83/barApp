@@ -9,10 +9,10 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-items: center;
 }
 
-.login label {
+label {
+  font-family: Montserrat;
   padding-left: 1rem;
   margin: 0.5rem;
   padding-bottom: 1rem;
@@ -22,7 +22,7 @@ form {
   color: #4f4d4c;
 }
 
-.login input {
+input {
   font-family: Montserrat;
   border: 0;
 }
@@ -31,7 +31,7 @@ form {
   padding-right: 1.1rem;
 }
 
-.login input:focus {
+input:focus {
   outline: none;
 }
 
@@ -53,18 +53,12 @@ form {
   color: #c45c4c;
 }
 
-.loginbttn {
-  align-self: center;
-  margin: 1rem;
+.login a {
   color: white;
-  text-align: center;
-  background-color: #c45c4c;
-  padding: 0.5rem 1rem;
-  border: #c45c4c solid;
-  border-radius: 1rem;
-  font-family: Quicksand;
+  text-decoration: none;
 }
 
-.loginbttn:hover {
-  cursor: pointer;
+.orBttn {
+  color: #c45c4c !important;
+  text-decoration: underline !important;
 }

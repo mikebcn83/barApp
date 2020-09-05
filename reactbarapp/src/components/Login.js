@@ -1,38 +1,54 @@
-import React, { useState } from "react";
-import "./Login.css";
-import logo from "../logo.png"
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import firebase from "@firebase/app";
+
 import { BsEyeFill, BsLockFill } from 'react-icons/bs';
 import { HiOutlineMail } from 'react-icons/hi';
+import "./Login.css";
+import logo from "../logo.png";
 
 export default function Login() {
-    const [email, setEmail] = useState(null);
+    const [user, setUser] = useState()
+    const [tables, setTables] = useState();
+
+    useEffect(() => {
+        setUser(localStorage.getItem("user"));
+        setTables(localStorage.getItem("tables"));
+    }, []); //get the values
+
+    useEffect(() => {
+        if (user && tables) {
+            localStorage.setItem("user", user);
+            localStorage.setItem("tables", tables);
+        }
+    }, [user, tables]); //save the values
+
+    const [mail, setMail] = useState(null);
     const [password, setPassword] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
 
     const db = firebase.firestore();
 
-    const login = () => {
-        if (email != null && password != null) {
-            db.collection('bars').doc(email).get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        if (doc.data().password === password) {
-                            localStorage.setItem("user", email); /*guardamos el user en el localstorage para que
-                                                                /se quede si cambiamos de ventana/cerramos el navegador*/
-                            window.location.reload();
-                        }
-                        else alert("wrong password");
-                    }
-                    else {
-                        alert("no account with this e-mail");
-                    }
-                });
-        }
-    };
+    const onLogin = async () => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(mail, password);
 
-    function handleSubmit(event) {
+            setUser(mail);
+
+            await db.collection(`/bars/${mail}/tables`).get().then(doc => {
+                setTables(doc.size);
+            });
+
+            window.location.replace("/");
+        } catch (error) {
+            alert(error.message);
+        };
+    }
+
+    const handleSubmit = (event) => {
         event.preventDefault();
+        onLogin();
     }
 
     return (
@@ -42,8 +58,8 @@ export default function Login() {
                 <label>
                     <HiOutlineMail className="react-icon" />
                     <input type="text" placeholder="E-mail" className="mail"
-                        onChange={(email) =>
-                            setEmail(email.target.value)} required />
+                        onChange={(user) =>
+                            setMail(user.target.value)} required />
                 </label>
                 <label>
                     <BsLockFill className="react-icon" />
@@ -59,13 +75,13 @@ export default function Login() {
                         setShowPassword(!showPassword);
                     })} />
                 </label>
-                <button type="submit" value="LOG IN" onClick={(() => {
-                    login();
-                })}>LOG IN</button>
+                <button type="submit" value="LOG IN">LOG IN</button>
+                <Link to="/register" className="orBttn">or Register</Link>
             </form>
         </div>
     );
 }
 
+
 //username test: testbar@bar.com
-//password test: 12345
+//password test: 123456

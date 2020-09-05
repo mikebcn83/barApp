@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "@firebase/app";
 
 //version temporal para añadir perdidos
-
+/*
 export default function AddOrder() {
   const user = localStorage.getItem("user");
 
@@ -52,3 +52,4 @@ export default function AddOrder() {
     </div>
   );
 }
+*/
