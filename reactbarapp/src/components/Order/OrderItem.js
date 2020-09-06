@@ -12,10 +12,10 @@ export default function OrderItem({ id, done, quantity, order }) {
   //cargamos los platos
   let [plates, loading, error] = useCollection(firebase.firestore().collection(`/bars/${user}/menu`));
   if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>;
+    return <h4>Error: {JSON.stringify(error)}</h4>;
   }
   if (loading) {
-    return <div>Loading...</div>;
+    return <div />;
   }
 
   return (

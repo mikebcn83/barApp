@@ -4,7 +4,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import firebase from "@firebase/app";
 import OrderItem from "./OrderItem";
 
-import Header from "./Header";
+import Header from "../Header";
 
 export default function OrderScreen() {
   const user = localStorage.getItem("user");
@@ -38,10 +38,10 @@ export default function OrderScreen() {
   );
 
   if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>;
+    return <h4>Error: {JSON.stringify(error)}</h4>;
   }
   if (loading) {
-    return <div>Loading...</div>;
+    return <h4>Loading orders...</h4>;
   }
 
   return (

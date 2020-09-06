@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 
-.orderInfo {  
+.orderInfo {
   padding-left: 2rem;
   display: flex;
   flex-direction: row;
@@ -38,9 +38,4 @@
 
 .plate {
   font-family: Quicksand;
-}
-
-.redS {
-  border: #c45c4c 1px solid;
-  margin: 0.5rem;
 }

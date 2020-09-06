@@ -8,7 +8,22 @@ h1 {
   font-family: Quicksand;
 }
 
-a {     
+h2 {
+  text-align: center;
+  font-family: Quicksand;
+}
+
+h3 {
+  text-align: center;
+  font-family: Quicksand;
+}
+
+h4 {
+  font-family: Quicksand;
+  font-weight: normal;
+}
+
+a {
   font-family: Montserrat;
   padding: 0.5rem;
 }
@@ -45,4 +60,15 @@ button:hover {
   text-align: center;
   flex-direction: row;
   align-items: flex-start;
+}
+
+.redS {
+  border: #c45c4c 1px solid;
+  margin: 0.5rem;
+}
+
+.grayS {
+  border: #c9c9c4 1px solid;
+  margin: 0.5rem;
+  height: 1px;
 }

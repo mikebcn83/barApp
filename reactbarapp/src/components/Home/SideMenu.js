@@ -4,7 +4,7 @@ import { useDocument } from "react-firebase-hooks/firestore";
 import firebase from "@firebase/app";
 
 import "./SideMenu.css";
-import logo from "../logo.png";
+import logo from "../../logo.png";
 
 export default function SideMenu() {
   const user = localStorage.getItem("user");
@@ -13,10 +13,10 @@ export default function SideMenu() {
   const [bar, loading, error] = useDocument(db.doc(`/bars/${user}`));
 
   if (error) {
-    return <div>Error: {error.toString()}</div>;
+    return <h4>Error: {error.toString()}</h4>;
   }
   if (loading) {
-    return <div></div>;
+    return <h4>Loading bar info...</h4>;
   }
 
   return (

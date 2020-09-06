@@ -17,23 +17,27 @@ export default function Register() {
 
     const onRegister = async () => {
         try {
-             await firebase.auth().createUserWithEmailAndPassword(mail, password);
+            await firebase.auth().createUserWithEmailAndPassword(mail, password);
             firebase.auth().currentUser.updateProfile({
                 displayName: name
             });
+
+            await firebase.auth().signInWithEmailAndPassword(mail, password);
 
             await db.doc(`/bars/${mail}`).set({
                 name,
                 adress
             });
 
-            for(let i=0; i<tables; i++){
-                await db.doc(`/bars/${mail}/tables/${i+1}`).set({
-                    occupied:false
+            for (let i = 0; i < tables; i++) {
+                await db.doc(`/bars/${mail}/tables/${i + 1}`).set({
+                    occupied: false
                 });
             }
+            localStorage.setItem("user", mail);
+            localStorage.setItem("tables", tables);
 
-            window.location.replace("/login");
+            window.location.replace("/menu");
         } catch (e) {
             alert(e.message);
         }

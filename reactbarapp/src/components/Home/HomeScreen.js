@@ -2,7 +2,7 @@ import React from "react";
 
 import TablesList from "./TablesList";
 import SideMenu from "./SideMenu";
-import Header from "./Header";
+import Header from "../Header";
 
 export default function HomeScreen() {
     const user = localStorage.getItem("user");

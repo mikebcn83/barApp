@@ -1,0 +1,73 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu ul {
+  text-align: center;
+  padding: 0;
+}
+
+.menu li {
+  list-style-type: none;
+  margin: 0;
+  padding-bottom: 1rem;
+  font-family: Montserrat;
+}
+
+.menu .react-icon {
+  padding: 0.5rem;
+}
+
+.menu .react-icon:hover {
+  cursor: pointer;
+}
+
+.menu label {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.menu input {
+  width: 5rem;
+}
+
+.categories {
+  display: flex;
+}
+
+.categories li {
+  padding: 0.5rem;
+}
+
+.categories li:hover {
+  cursor: pointer;
+}
+
+.selected {
+  color: #c45c4c;
+  font-weight: bold;
+}
+
+.plus {
+  align-self: center;
+  margin: 0;
+  background: none;
+  padding: 1rem;
+  border: 0;
+}
+
+.plus:hover {
+  background: none;
+}
+
+.menu .react-icon {
+  padding: 0 0 0 0.5rem !important;
+}
+
+.menu form {
+  flex-direction: column !important;
+  align-content: center;
+}

@@ -1,0 +1,34 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings .react-icon {
+  padding: 0.5rem;
+}
+
+.settings .react-icon:hover {
+  cursor: pointer;
+}
+
+.settings form {
+  display: flex;
+  flex-direction: row;
+  border-bottom: #c9c9c4 0.5px solid;
+}
+
+.settings label {
+  border: 0;
+  padding: 0;
+}
+
+.logout {
+  background-color: #4f4d4c;
+  border-color: #4f4d4c;
+}
+
+.mono {
+  /*monospaced font !! para que quede alineado verticalmente*/
+  font-family: "DM Mono";
+}

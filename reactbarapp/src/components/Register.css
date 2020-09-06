@@ -1,13 +1,11 @@
 .register {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+}
 
-  }
-  
-  .register a {
-    color: white;
-    text-decoration: none;
-  }
-  
+.register a {
+  color: white;
+  text-decoration: none;
+}

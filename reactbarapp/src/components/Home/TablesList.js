@@ -4,7 +4,7 @@ import firebase from "@firebase/app";
 
 import { Link } from "react-router-dom";
 
-import './TablesList.css'
+import './TablesList.css';
 
 //component table para acceder a la mesa (si está ocupada)
 //(muestra el numero de la mesa y el color según esté ocupada o no)
@@ -26,10 +26,10 @@ export default function Tables() {
   const [tables, loading, error] = useCollection(db.collection(`/bars/${user}/tables`));
 
   if (error) {
-    return <div>Error: {error.toString()}</div>;
+    return <h4>Error: {error.toString()}</h4>;
   }
   if (loading) {
-    return <div>Loading tables...</div>;
+    return <h4>Loading tables...</h4>;
   }
 
   return (

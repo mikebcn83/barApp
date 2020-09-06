@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import HomeScreen from './components/HomeScreen';
+import HomeScreen from './components/Home/HomeScreen';
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Settings from "./components/Settings";
-import OrderScreen from "./components/OrderScreen";
+import SettingsScreen from "./components/Settings/SettingsScreen";
+import OrderScreen from "./components/Order/OrderScreen";
+import MenuScreen from "./components/Menu/MenuScreen";
 
 import "./App.css";
 
@@ -35,7 +36,8 @@ function App() {
         <Route exact path="/" component={HomeScreen} />
         <Route exact path="/login" render={() => !user ? <Login /> : <Login />} />
         <Route exact path="/register" render={() => !user ? <Register /> : wrongPath()} />
-        <Route exact path="/settings" render={() => user ? <Settings /> : wrongPath()} />
+        <Route exact path="/settings" render={() => user ? <SettingsScreen /> : wrongPath()} />
+        <Route exact path="/menu" render={() => user ? <MenuScreen /> : wrongPath()} />
         {tableRoutes}
         <Route path="/" render={() => wrongPath()} />
       </Switch>

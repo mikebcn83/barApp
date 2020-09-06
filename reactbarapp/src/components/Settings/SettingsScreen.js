@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import firebase from "@firebase/app";
 
-import Header from "./Header";
+import Header from "../Header";
 
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import "./Settings.css";
 
 
-export default function Settings() {
+export default function SettingsScreen() {
     const user = localStorage.getItem("user");
     const tables = parseInt(localStorage.getItem("tables"));
 
@@ -25,8 +25,7 @@ export default function Settings() {
     const updateTables = (event) => {
         event.preventDefault();
         if (tablesLength !== tables) {
-            const updateTables = window.confirm("Are you sure you want to change the number of tables?\nYou might erase some active orders aswell");
-            if (updateTables) {
+            if (window.confirm("Are you sure you want to change the number of tables?\nYou might erase some active orders aswell")) {
                 if (tablesLength > tables) {
                     for (let i = 0; i < (tablesLength - tables); i++) {
                         db.doc(`/bars/${user}/tables/${tables + 1 + i}`).set({
@@ -55,8 +54,7 @@ export default function Settings() {
     }
 
     const logOut = () => {
-        const logOut = window.confirm("Are you sure you want to log out?");
-        if (logOut) {
+        if (window.confirm("Are you sure you want to log out?")) {
             firebase.auth().signOut().then(function () {
                 localStorage.clear();
                 window.location.replace("/");
@@ -71,7 +69,6 @@ export default function Settings() {
     return (
         <>
             <Header />
-
             <div className="settings">
                 <h2>Change Number of tables</h2>
                 <form onSubmit={updateTables}>
@@ -83,6 +80,7 @@ export default function Settings() {
                         })} /> </label>
                     <button type="submit">SAVE</button>
                 </form>
+                <button onClick={() => { window.location.replace("/menu") }}>EDIT MENU</button>
                 <button className="logout" onClick={logOut}>LOGOUT</button>
             </div>
         </>
