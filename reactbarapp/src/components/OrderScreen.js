@@ -27,6 +27,7 @@ export default function OrderScreen() {
       });
     }
     fetchOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //cargamos los datos de la db

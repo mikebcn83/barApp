@@ -15,6 +15,7 @@ export default function Settings() {
         if (user && tables) {
             localStorage.setItem("tables", tables);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); //save the values
 
     const [tablesLength, setTablesLength] = useState(tables);
@@ -88,4 +89,3 @@ export default function Settings() {
     )
 
 }
-

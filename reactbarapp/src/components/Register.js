@@ -11,12 +11,13 @@ export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [name, setName] = useState(null);
     const [adress, setAdress] = useState(null);
+    const [tables, setTables] = useState(null);
 
     const db = firebase.firestore();
 
     const onRegister = async () => {
         try {
-            await firebase.auth().createUserWithEmailAndPassword(mail, password);
+             await firebase.auth().createUserWithEmailAndPassword(mail, password);
             firebase.auth().currentUser.updateProfile({
                 displayName: name
             });
@@ -25,6 +26,12 @@ export default function Register() {
                 name,
                 adress
             });
+
+            for(let i=0; i<tables; i++){
+                await db.doc(`/bars/${mail}/tables/${i+1}`).set({
+                    occupied:false
+                });
+            }
 
             window.location.replace("/login");
         } catch (e) {
@@ -67,6 +74,11 @@ export default function Register() {
                     <input type="text" placeholder="Adress"
                         onChange={(adress) =>
                             setAdress(adress.target.value)} required />
+                </label>
+                <label>
+                    <input type="number" placeholder="Number of tables"
+                        onChange={(tables) =>
+                            setTables(tables.target.value)} required />
                 </label>
                 <button type="submit" value="REGISTER">REGISTER</button>
                 <Link to="/login" className="orBttn">or Log in</Link>
