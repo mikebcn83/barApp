@@ -5,12 +5,12 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { TiDeleteOutline } from 'react-icons/ti';
 import "./Menu.css";
 
-export default function PlatesList({ category }) {
+export default function PlatesList({ type }) {
     
     const user = localStorage.getItem("user");
 
     const [plates, loading, error] = useCollection(
-        firebase.firestore().collection(`/bars/${user}/menu/itemsList/${category}`)
+        firebase.firestore().collection(`/bars/${user}/menu/itemsList/${type}`)
     );
 
     if (error) {
@@ -26,7 +26,7 @@ export default function PlatesList({ category }) {
                 return <li key={plate.id}>{plate.data().name} <span className="grayS" /> {plate.data().price}€
             <TiDeleteOutline className="react-icon" onClick={() => {
                         if (window.confirm("Are you sure you want to delete this plate?")) {
-                            firebase.firestore().doc(`/bars/${user}/menu/itemsList/${category}/${plate.id}`).delete()
+                            firebase.firestore().doc(`/bars/${user}/menu/itemsList/${type}/${plate.id}`).delete()
                                 .catch(e => {
                                     alert(e.message);
                                 })

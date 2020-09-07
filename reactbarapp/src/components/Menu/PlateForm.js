@@ -6,7 +6,7 @@ import PlatesList from "./PlatesList";
 import { AiFillPlusCircle } from 'react-icons/ai';
 import "./Menu.css";
 
-export default function PlateForm({ category }) {
+export default function PlateForm({ type }) {
 
     const user = localStorage.getItem("user");
     const nameRef = useRef(null);
@@ -16,13 +16,16 @@ export default function PlateForm({ category }) {
     const [price, setPrice] = useState();
 
 
-    const randomId = () => {
-        let result = '';
+    const randomId = (type) => {
+        let result = type.substring(0,2); //los dos primeros chars seran las dos
+                                        //primeras letras del tipo de plato (para
+                                        //localizarlos mejor luego)
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 18; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
+        console.log(result);
         return result;
     }
 
@@ -37,11 +40,10 @@ export default function PlateForm({ category }) {
 
 
     return (<>
-        <PlatesList category={category} />
-
+        <PlatesList type={type} />
         <form onSubmit={(e) => {
             e.preventDefault();
-            registerPlate(randomId(), category, name, price);
+            registerPlate(randomId(type), type, name, price);
             nameRef.current.value = '';
             priceRef.current.value = '';
         }}>

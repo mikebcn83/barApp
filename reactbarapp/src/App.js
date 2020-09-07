@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import SettingsScreen from "./components/Settings/SettingsScreen";
 import OrderScreen from "./components/Order/OrderScreen";
-import MenuScreen from "./components/Menu/MenuScreen";
+import { MenuScreen } from "./components/Menu/MenuScreen";
 
 import "./App.css";
 

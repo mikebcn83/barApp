@@ -39,3 +39,7 @@
 .plate {
   font-family: Quicksand;
 }
+
+.orderItems p{
+  margin: 0;
+}

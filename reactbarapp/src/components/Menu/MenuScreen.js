@@ -5,7 +5,9 @@ import PlateForm from "./PlateForm";
 
 import "./Menu.css";
 
-export default function MenuScreen() {
+export const platesTypes = ["starters", "main", "desserts", "drinks"];
+
+export const MenuScreen = () => {
     const [showStarters, setShowStarters] = useState(true);
     const [showMain, setShowMain] = useState(false);
     const [showDesserts, setShowDesserts] = useState(false);
@@ -43,10 +45,10 @@ export default function MenuScreen() {
                     }} className={showDrinks ? "selected" : undefined}>Drinks</li>
                 </ul>
 
-                {showStarters && <PlateForm category="starters" />}
-                {showMain && <PlateForm category="main" />}
-                {showDesserts && <PlateForm category="desserts" />}
-                {showDrinks && <PlateForm category="drinks" />}
+                {showStarters && <PlateForm type={platesTypes[0]} />}
+                {showMain && <PlateForm type={platesTypes[1]} />}
+                {showDesserts && <PlateForm type={platesTypes[2]} />}
+                {showDrinks && <PlateForm type={platesTypes[3]} />}
             </div>
         </>
     )
