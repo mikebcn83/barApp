@@ -1,89 +1,40 @@
-import React, { useState, useEffect } from "react";
-import firebase from "@firebase/app";
+import React from "react";
 
 import Header from "../Header";
+import { useAuth } from "../../use-auth.js";
+import { wrongPath } from "../../App";
 
-import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import "./Settings.css";
-
+import { Link } from "react-router-dom";
+import TablesEditor from "./TablesEditor";
+import UserEditor from "./UserEditor";
 
 export default function SettingsScreen() {
-    const user = localStorage.getItem("user");
-    const tables = parseInt(localStorage.getItem("tables"));
 
-    useEffect(() => {
-        if (user && tables) {
-            localStorage.setItem("tables", tables);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); //save the values
-
-    const [tablesLength, setTablesLength] = useState(tables);
-
-    const db = firebase.firestore();
-
-    const updateTables = (event) => {
-        event.preventDefault();
-        if (tablesLength !== tables) {
-            if (window.confirm("Are you sure you want to change the number of tables?\nYou might erase some active orders aswell")) {
-                if (tablesLength > tables) {
-                    for (let i = 0; i < (tablesLength - tables); i++) {
-                        db.doc(`/bars/${user}/tables/${tables + 1 + i}`).set({
-                            occupied: false
-                        }).catch(function (error) {
-                            console.error("Error creating document: ", error);
-                        });
-                    }
-                }
-                else {
-                    for (let i = tables; i > (tablesLength); i--) {
-                        db.doc(`/bars/${user}/tables/${i}`).delete().catch(function (error) {
-                            console.error("Error removing document: ", error);
-                        });
-                    }
-                }
-                setTablesLength(tablesLength); //actualizamos el numero de mesas
-                localStorage.setItem("tables", tablesLength);
-                return true;
-            }
-            else {
-                setTablesLength(tables);
-                return false;
-            }
-        }
-    }
+    const auth = useAuth();
 
     const logOut = () => {
         if (window.confirm("Are you sure you want to log out?")) {
-            firebase.auth().signOut().then(function () {
-                localStorage.clear();
-                window.location.replace("/");
-            }, function (error) {
-                console.error('Sign Out Error', error);
-            });
+            auth.signout();
+            window.location.replace("/");
+
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
-    return (
-        <>
-            <Header />
-            <div className="settings">
-                <h2>Change Number of tables</h2>
-                <form onSubmit={updateTables}>
-                    <label>Tables: <AiFillMinusCircle className="react-icon" onClick={(() => {
-                        if (tablesLength > 1) setTablesLength(tablesLength - 1);
-                    })} /><span className="mono">{tablesLength}</span>
-                        <AiFillPlusCircle className="react-icon" onClick={(() => {
-                            if (tablesLength < 50) setTablesLength(tablesLength + 1);
-                        })} /> </label>
-                    <button type="submit">SAVE</button>
-                </form>
-                <button onClick={() => { window.location.replace("/menu") }}>EDIT MENU</button>
-                <button className="logout" onClick={logOut}>LOGOUT</button>
-            </div>
-        </>
-    )
-
+    if (auth.user) {
+        return (
+            <>
+                <Header />
+                <div className="settings">
+                    <UserEditor />
+                    <TablesEditor />
+                    <h3>Edit menu</h3>
+                    <Link to="/menu"><button>GO TO MENU</button></Link>
+                    <div className="hline" />
+                    <button className="logout" onClick={logOut}>LOGOUT</button>
+                </div>
+            </>
+        )
+    } return wrongPath()
 }

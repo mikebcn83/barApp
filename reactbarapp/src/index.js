@@ -6,7 +6,7 @@ import '@firebase/firestore';
 import '@firebase/auth'
 import firebaseConfig from './barapp-connection.json';
 
-import App from './App';
+import { App } from './App';
 
 firebase.initializeApp(firebaseConfig);
 

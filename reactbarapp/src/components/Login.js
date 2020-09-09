@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import firebase from "@firebase/app";
+import { useAuth } from "../use-auth.js";
 
 import { BsEyeFill, BsLockFill } from 'react-icons/bs';
 import { HiOutlineMail } from 'react-icons/hi';
@@ -9,37 +9,16 @@ import "./Login.css";
 import logo from "../logo.png";
 
 export default function Login() {
-    const [user, setUser] = useState()
-    const [tables, setTables] = useState();
-
-    useEffect(() => {
-        setUser(localStorage.getItem("user"));
-        setTables(localStorage.getItem("tables"));
-    }, []); //get the values
-
-    useEffect(() => {
-        if (user && tables) {
-            localStorage.setItem("user", user);
-            localStorage.setItem("tables", tables);
-        }
-    }, [user, tables]); //save the values
+    const auth = useAuth();
+    const passwordRef = useRef(null);
 
     const [mail, setMail] = useState(null);
     const [password, setPassword] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
 
-    const db = firebase.firestore();
-
     const onLogin = async () => {
         try {
-            await firebase.auth().signInWithEmailAndPassword(mail, password);
-
-            setUser(mail);
-
-            await db.collection(`/bars/${mail}/tables`).get().then(doc => {
-                setTables(doc.size);
-            });
-
+            await auth.signin(mail, password);
             window.location.replace("/");
         } catch (error) {
             alert(error.message);
@@ -51,7 +30,7 @@ export default function Login() {
         onLogin();
     }
 
-    return (
+    if (!auth.user) return (
         <div className="login">
             <img src={logo} className="logo" alt="BarApp logo" />
             <form onSubmit={handleSubmit}>
@@ -63,14 +42,13 @@ export default function Login() {
                 </label>
                 <label>
                     <BsLockFill className="react-icon" />
-                    <input id="password" type="password" placeholder="Password" onChange={(password) =>
+                    <input id="password" type="password" placeholder="Password" ref={passwordRef} onChange={(password) =>
                         setPassword(password.target.value)} required />
                     <BsEyeFill className={showPassword ? "red" : "gray"} onClick={(() => {
-                        let x = document.getElementById("password");
-                        if (x.type === "password") {
-                            x.type = "text";
+                        if (passwordRef.current.type === "password") {
+                            passwordRef.current.type = "text";
                         } else {
-                            x.type = "password";
+                            passwordRef.current.type = "password";
                         }
                         setShowPassword(!showPassword);
                     })} />
@@ -80,8 +58,6 @@ export default function Login() {
             </form>
         </div>
     );
+    window.location.replace("/");
+    return null;
 }
-
-
-//username test: testbar@bar.com
-//password test: 123456

@@ -72,3 +72,13 @@ button:hover {
   margin: 0.5rem;
   height: 1px;
 }
+
+.loading {
+  display: block;
+  margin: auto;
+  margin-top: 5rem;
+}
+
+.loading img {
+  width: 200px;
+}

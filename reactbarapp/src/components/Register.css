@@ -9,3 +9,7 @@
   color: white;
   text-decoration: none;
 }
+
+.register input {
+  width: 10rem;
+}

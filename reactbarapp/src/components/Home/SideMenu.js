@@ -2,12 +2,19 @@ import React from "react";
 
 import { useDocument } from "react-firebase-hooks/firestore";
 import firebase from "@firebase/app";
+import { useAuth } from "../../use-auth";
 
 import "./SideMenu.css";
 import logo from "../../logo.png";
 
 export default function SideMenu() {
-  const user = localStorage.getItem("user");
+
+  const auth = useAuth();
+  let user, email = null;
+  if (auth.user) {
+    user = auth.user.displayName;
+    email = auth.user.email
+  }
 
   const db = firebase.firestore();
   const [bar, loading, error] = useDocument(db.doc(`/bars/${user}`));
@@ -16,17 +23,19 @@ export default function SideMenu() {
     return <h4>Error: {error.toString()}</h4>;
   }
   if (loading) {
-    return <h4>Loading bar info...</h4>;
+    return null;
   }
 
-  return (
-    <div className="sideMenu">
-      <img src={logo} className="logo" alt="BarApp logo" />
-      <h2>{bar.data().name}</h2>
-      <div>
-        <p><strong>Adress: </strong> {bar.data().adress}</p>
-        <p><strong>E-mail: </strong> {user}</p>
+  if (bar.data()) {
+    return (
+      <div className="sideMenu">
+        <img src={logo} className="logo" alt="BarApp logo" />
+        <h2>{bar.data().name}</h2>
+        <div>
+          <p><strong>Adress: </strong> {bar.data().adress}</p>
+          <p><strong>E-mail: </strong> {email}</p>
+        </div>
       </div>
-    </div>
-  )
+    )
+  } return null;
 }

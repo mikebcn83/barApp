@@ -27,11 +27,23 @@
 .menu label {
   margin: 0;
   border: 0;
-  padding: 0;
+  padding: 1rem;
 }
 
 .menu input {
   width: 5rem;
+}
+
+textarea {
+  width: 15rem;
+  resize: vertical;
+  font-family: Montserrat;
+  border: 0;
+  font-size: 10pt;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 .categories {
@@ -49,18 +61,6 @@
 .selected {
   color: #c45c4c;
   font-weight: bold;
-}
-
-.plus {
-  align-self: center;
-  margin: 0;
-  background: none;
-  padding: 1rem;
-  border: 0;
-}
-
-.plus:hover {
-  background: none;
 }
 
 .menu .react-icon {
