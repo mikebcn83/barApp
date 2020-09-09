@@ -29,15 +29,17 @@ export default function PlatesList({ type }) {
                 {plates.docs.map((plate) => {
                     return (
                         <li key={plate.id}>
-                            {plate.data().name} <span className="grayS" /> {plate.data().price}€
+                            {plate.data().imageUri &&
+                                <img alt="plate image" src={plate.data().imageUri} />}
+                            <p>{plate.data().name} <span className="grayS" /> {plate.data().price}€
                             <TiDeleteOutline className="react-icon" onClick={() => {
-                                if (window.confirm("Are you sure you want to delete this plate?")) {
-                                    firebase.firestore().doc(`/bars/${user}/menu/itemsList/${type}/${plate.id}`).delete()
-                                        .catch(e => {
-                                            alert(e.message);
-                                        })
-                                }
-                            }} />
+                                    if (window.confirm("Are you sure you want to delete this plate?")) {
+                                        firebase.firestore().doc(`/bars/${user}/menu/itemsList/${type}/${plate.id}`).delete()
+                                            .catch(e => {
+                                                alert(e.message);
+                                            })
+                                    }
+                                }} /></p>
                             <p>{plate.data().ingredients}</p></li>
                     );
                 })}

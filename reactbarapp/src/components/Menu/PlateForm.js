@@ -9,16 +9,22 @@ import "./Menu.css";
 export default function PlateForm({ type }) {
 
     const auth = useAuth();
-    let user = null;
-    if (auth.user) user = auth.user.displayName;
+    const storage = firebase.storage();
+    let user, imagesRef = null;
+    if (auth.user) {
+        user = auth.user.displayName;
+        imagesRef = storage.ref().child(`${auth.user.displayName}/platesimages`);
+    }
 
     const nameRef = useRef(null);
     const priceRef = useRef(null);
     const ingredientsRef = useRef(null);
+    const imageRef = useRef(null);
 
     const [name, setName] = useState();
     const [price, setPrice] = useState();
     const [ingredients, setIngredients] = useState();
+    const [imageUri, setImageUri] = useState();
 
     const randomId = (type) => {
         let result = type.substring(0, 2); /*los dos primeros chars seran las dos
@@ -33,15 +39,25 @@ export default function PlateForm({ type }) {
     }
 
     const registerPlate = (id, type, name, price, ingredients) => {
-        if (user) firebase.firestore().doc(`/bars/${user}/menu/itemsList/${type}/${id}`).set({
+        firebase.firestore().doc(`/bars/${user}/menu/itemsList/${type}/${id}`).set({
             name,
             price,
-            ingredients
+            ingredients,
+            imageUri
         }).catch(e => {
             alert(e.message);
         });
     }
 
+    const handleChange = (e) => {
+        if (e.target.files[0]) {
+            imagesRef.child(e.target.files[0].name).put(e.target.files[0]).then(function (snapshot) {
+                snapshot.ref.getDownloadURL().then(url => {
+                    setImageUri(url);
+                })
+            });
+        }
+    };
 
     if (user) return (<>
         <PlatesList type={type} />
@@ -51,6 +67,7 @@ export default function PlateForm({ type }) {
             nameRef.current.value = '';
             priceRef.current.value = '';
             ingredientsRef.current.value = '';
+            imageRef.current.value = '';
         }}>
             <label>Add a plate:</label>
             <label>
@@ -61,6 +78,10 @@ export default function PlateForm({ type }) {
                 </label>
             <textarea className="ingredients" type="text" placeholder="Plate description" ref={ingredientsRef} onChange={(ingredients) =>
                 setIngredients(ingredients.target.value)} required />
+            <label className="laimage">
+                Plate image
+            </label>
+            <input className="inimage" type="file" onChange={handleChange} ref={imageRef} />
             <button type="submit">ADD</button>
         </form>
     </>

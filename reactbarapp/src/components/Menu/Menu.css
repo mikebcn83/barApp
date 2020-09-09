@@ -34,6 +34,21 @@
   width: 5rem;
 }
 
+.laimage {
+  font-size: 10pt;
+}
+
+.inimage {
+  width: 20rem !important;
+}
+
+.inimage:focus + label,
+.inimage + label:hover {
+  cursor: pointer;
+  background-color: #c9c9c4;
+  border-color: #c9c9c4;
+}
+
 textarea {
   width: 15rem;
   resize: vertical;
@@ -70,4 +85,9 @@ textarea:focus {
 .menu form {
   flex-direction: column !important;
   align-content: center;
+}
+
+li img {
+  width: 100%;
+  max-width: 300px;
 }
