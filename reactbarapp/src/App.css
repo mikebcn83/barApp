@@ -51,6 +51,11 @@ button:hover {
   border-color: #c9c9c4;
 }
 
+.bttn2 {
+  background-color: #a7564a;
+  border: #a7564a solid;
+}
+
 .react-icon {
   color: #c45c4c;
 }
@@ -81,4 +86,10 @@ button:hover {
 
 .loading img {
   width: 200px;
+}
+
+.buttonlink {
+  text-decoration: none;
+  color: white;
+  font-family: Quicksand;
 }

@@ -27,10 +27,10 @@ export default function SettingsScreen() {
             <>
                 <Header />
                 <div className="settings">
-                    <UserEditor />
-                    <TablesEditor />
+                    <UserEditor username={auth.user.displayName} />
+                    <TablesEditor username={auth.user.displayName} />
                     <h3>Edit menu</h3>
-                    <Link to="/menu"><button>GO TO MENU</button></Link>
+                    <button className="bttn2"><Link className="buttonlink" to="/menu">GO TO MENU</Link></button>
                     <div className="hline" />
                     <button className="logout" onClick={logOut}>LOGOUT</button>
                 </div>

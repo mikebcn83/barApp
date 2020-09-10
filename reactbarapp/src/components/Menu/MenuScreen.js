@@ -55,10 +55,10 @@ export const MenuScreen = () => {
                             {platesTypes[3].charAt(0).toUpperCase() + platesTypes[3].slice(1)}</li>
                     </ul>
 
-                    {showStarters && <PlateForm type={platesTypes[0]} />}
-                    {showMain && <PlateForm type={platesTypes[1]} />}
-                    {showDesserts && <PlateForm type={platesTypes[2]} />}
-                    {showDrinks && <PlateForm type={platesTypes[3]} />}
+                    {showStarters && <PlateForm type={platesTypes[0]} username={auth.user.displayName} />}
+                    {showMain && <PlateForm type={platesTypes[1]} username={auth.user.displayName} />}
+                    {showDesserts && <PlateForm type={platesTypes[2]} username={auth.user.displayName} />}
+                    {showDrinks && <PlateForm type={platesTypes[3]} username={auth.user.displayName} />}
                 </div>
             </>
         )

@@ -17,8 +17,8 @@ export default function HomeScreen() {
                 <>
                     <Header />
                     <div className="home">
-                        <SideMenu />
-                        <TablesList />
+                        <SideMenu user={auth.user} />
+                        <TablesList username={auth.user.displayName} />
                     </div>
                 </>
             )

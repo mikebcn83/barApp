@@ -1,3 +1,18 @@
+.orderScreen {
+  display: flex;
+  flex-direction: row;
+}
+
+.list {
+  flex-grow: 2;
+}
+
+.qr {
+  text-align: center;
+  justify-content: flex-end;
+  padding: 2rem;
+}
+
 .orderItems {
   display: flex;
   flex-direction: column;
@@ -40,6 +55,6 @@
   font-family: Quicksand;
 }
 
-.orderItems p{
+.orderItems p {
   margin: 0;
 }
