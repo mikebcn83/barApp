@@ -19,13 +19,11 @@ export default function PlateForm({ type, username }) {
     const [ingredients, setIngredients] = useState();
     const [imageUri, setImageUri] = useState();
 
-    const randomId = (type) => {
-        let result = type.substring(0, 2); /*los dos primeros chars seran las dos
-                                             primeras letras del tipo de plato (para
-                                             localizarlos mejor luego)*/
+    const randomId = () => {
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
-        for (var i = 0; i < 18; i++) {
+        let result;
+        for (var i = 0; i < 20; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
@@ -57,7 +55,7 @@ export default function PlateForm({ type, username }) {
             <PlatesList type={type} username={username} />
             <form onSubmit={(e) => {
                 e.preventDefault();
-                registerPlate(randomId(type), type, name, price, ingredients);
+                registerPlate(randomId(), type, name, price, ingredients);
                 nameRef.current.value = '';
                 priceRef.current.value = '';
                 ingredientsRef.current.value = '';

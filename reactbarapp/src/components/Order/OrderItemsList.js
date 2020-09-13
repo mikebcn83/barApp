@@ -2,13 +2,10 @@ import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import firebase from "@firebase/app";
 
-import OrderItem from "./OrderItem";
-import { platesTypes } from "../Menu/MenuScreen";
-
-export default function OrderItemsList({ order, username }) {
+export default function OrderItemsList({ orderId, username }) {
 
   let [orderItems, loading, error] = useCollection(
-    firebase.firestore().collection(`/bars/${username}/orders/${order}/orderItems`)
+    firebase.firestore().collection(`/bars/${username}/orders/${orderId}/orderItems`)
   );
 
   if (error) {
@@ -22,11 +19,17 @@ export default function OrderItemsList({ order, username }) {
     <>
       <div className="orderItems" >
         {orderItems.docs.map((orderPlate) => {
-          for (let i = 0; i < platesTypes.length; i++) {
-            if (orderPlate.id.substring(0, 2) === platesTypes[i].substring(0, 2)) {
-              return <OrderItem key={orderPlate.id} id={orderPlate.id} orderId={order} type={platesTypes[i]} {...orderPlate.data()} username={username} />
-            }
-          } return null;
+          return (
+            <label key={orderPlate.id}>
+              <input type="checkbox" checked={orderPlate.data().done} onChange={() => {
+                firebase.firestore().collection(`/bars/${username}/orders/${orderId}/orderItems`).doc(orderPlate.id).update({
+                  done: !orderPlate.data().done
+                })
+              }} />
+              <span className="plate">{orderPlate.data().name}</span>
+              <span className="redS" /> {orderPlate.data().price}€
+              {orderPlate.data().notes ? <p><span className="redS" />{orderPlate.data().notes}</p> : undefined}
+            </label>)
         })
         }
       </div>

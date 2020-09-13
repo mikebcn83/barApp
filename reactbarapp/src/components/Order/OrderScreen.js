@@ -8,6 +8,8 @@ import { useAuth } from "../../use-auth";
 import Header from "../Header";
 import OrderItemsList from "./OrderItemsList";
 
+import "./OrderItem.css";
+
 export default function OrderScreen() {
 
   const auth = useAuth();
@@ -50,7 +52,7 @@ export default function OrderScreen() {
       <h1>Table {table}</h1>
       <div className="orderScreen">
         <div className="list">
-          <OrderItemsList order={orderId} username={user} />
+          <OrderItemsList orderId={orderId} username={user} />
           <p className="orderInfo"> Total: {order.data().total}€ <span className="redS" />
             {order.data().payed ? <span>Order payed</span> : <span className="red">Order not payed</span>} </p>
           <button onClick={() => {

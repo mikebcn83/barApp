@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import firebase from "@firebase/app";
 import QRCode from "qrcode.react";
 
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 
 function QRs({ username, tables }) {
-
-    const qrRef = useRef(null);
 
     let qrs = [];
     for (let i = 0; i < tables; i++) {

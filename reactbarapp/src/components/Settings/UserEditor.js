@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import firebase from "@firebase/app";
 import { useDocument } from "react-firebase-hooks/firestore";
 
-import { useAuth } from "../../use-auth.js";
-
 export default function UserEditor({ username }) {
 
     const [name, setName] = useState(null);

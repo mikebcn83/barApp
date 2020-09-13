@@ -35,7 +35,7 @@ export default function PlatesList({ type, username }) {
                                             })
                                     }
                                 }} /></p>
-                            <p>{plate.data().ingredients}</p></li>
+                            <p className="desc">{plate.data().ingredients}</p></li>
                     );
                 })}
             </ul>
