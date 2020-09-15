@@ -20,7 +20,7 @@ export default function Register() {
     const [password, setPassword] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [name, setName] = useState(null);
-    const [adress, setAdress] = useState(null);
+    const [address, setAddress] = useState(null);
     const [tables, setTables] = useState(null);
 
     const onRegister = () => {
@@ -33,7 +33,7 @@ export default function Register() {
 
                     await firebase.firestore().doc(`/bars/${username}`).set({
                         name,
-                        adress
+                        address
                     }).then(async () => {
                         for (let i = 0; i < tables; i++) {
                             await firebase.firestore().doc(`/bars/${username}/tables/${i + 1}`).set({
@@ -94,9 +94,9 @@ export default function Register() {
                             setName(name.target.value)} required />
                 </label>
                 <label>
-                    <input type="text" placeholder="Adress"
-                        onChange={(adress) =>
-                            setAdress(adress.target.value)} required />
+                    <input type="text" placeholder="Address"
+                        onChange={(address) =>
+                            setAddress(address.target.value)} required />
                 </label>
                 <label>
                     <input type="number" min="1" max="20" placeholder="Number of tables"

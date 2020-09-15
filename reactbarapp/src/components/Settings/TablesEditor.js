@@ -80,7 +80,7 @@ export default function TablesEditor({ username }) {
                     })} /> </label>
                 <button type="submit">SAVE</button>
             </form>
-            {showQRs && <QRs tables={tablesLength} />}
+            {showQRs && <QRs tables={tablesLength} username={username}/>}
             <button className="bttn2" onClick={toggleQrs}>{buttonValue}</button>
         </>
     );

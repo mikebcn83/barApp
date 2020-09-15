@@ -27,7 +27,7 @@ export default function SideMenu({ user }) {
       <img src={logo} className="logo" alt="BarApp logo" />
       <h2>{bar.data().name}</h2>
       <div>
-        <p><strong>Adress: </strong> {bar.data().adress}</p>
+        <p><strong>Address: </strong> {bar.data().address}</p>
         <p><strong>E-mail: </strong> {email}</p>
       </div>
     </div>

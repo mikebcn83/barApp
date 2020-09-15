@@ -28,6 +28,30 @@ export default function OrderScreen() {
     fetchOrder();
   }, [user, table]);
 
+
+
+  const printReceipt = async (orderId, total) => {
+
+    const date = new Date();
+    let receipt = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getSeconds()} ${user}\n`;
+
+    await firebase.firestore().collection(`/bars/${user}/orders/${orderId}/orderItems`).get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let string = `x1 ${doc.data().name}.....${doc.data().price}€`;
+        receipt = receipt + "\n" + string;
+      });
+    }).catch(function (error) {
+      console.log("Error getting documents: ", error);
+    });
+
+
+    if (window.confirm(`${receipt}\nTOTAL:${total}€\n\nConfirm payment?`)) {
+      firebase.firestore().doc(`/bars/${user}/orders/${orderId}`).update({
+        payed: true
+      });
+    }
+  }
+
   //cargamos los datos de la db
   let [order, loading, error] = useDocument(firebase.firestore().doc(`/bars/${user}/orders/${orderId}`));
 
@@ -55,7 +79,10 @@ export default function OrderScreen() {
           <OrderItemsList orderId={orderId} username={user} />
           <p className="orderInfo"> Total: {order.data().total}€ <span className="redS" />
             {order.data().payed ? <span>Order payed</span> : <span className="red">Order not payed</span>} </p>
-          <button onClick={() => {
+          {!order.data().payed && <button onClick={() => {
+            printReceipt(orderId, order.data().total);
+          }}>GET RECEIPT</button>}
+          {order.data().payed && <button onClick={() => {
             if (window.confirm("Are you sure you are done with this table?")) {
               firebase.firestore().doc(`/bars/${user}/tables/${table}`).set({
                 occupied: false
@@ -63,7 +90,7 @@ export default function OrderScreen() {
                 console.error("Error updating documents", error);
               });
             }
-          }}><Link className="buttonlink" to="">CLEAR</Link></button>
+          }}><Link className="buttonlink" to="">CLEAR</Link></button>}
         </div>
         <div className="qr">
           <h2>QR Code for this table</h2>
