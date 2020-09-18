@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import {
   StatusBar,
-  BackHandler,
   StyleSheet,
   View,
   TouchableOpacity,
   Text,
   Image,
 } from "react-native";
-// import { FAB } from "react-native-paper";
-// import Modal from "react-native-modal";
+import { getOrders } from "../Api/Apis";
+import { useDispatch } from "react-redux";
+
 
 const InterfaceUser = ({ navigation }) => {
-  // const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
 
-  // const openModal = () => {
-  //   setModal(!modal);
-  // };
   const toScan = () => {
-    navigation.navigate("ItemList");
+    navigation.navigate("ScanQR");
   };
 
   const FindBar = () => {
@@ -26,6 +23,7 @@ const InterfaceUser = ({ navigation }) => {
   };
 
   const OrderList = () => {
+    getOrders(dispatch)
     navigation.navigate("OrderList");
   };
 
@@ -40,9 +38,9 @@ const InterfaceUser = ({ navigation }) => {
         />
       </View>
       <View style={styles.SecondView}>
-        <TouchableOpacity style={styles.ViewBalance} onPress={FindBar} >
+        <TouchableOpacity style={styles.ViewFindBar} onPress={FindBar} >
           <Image
-            source={require("../assets/images/buscar.png")}
+            source={require("../assets/images/lupa.png")}
             style={styles.ImageIconStyle}
           />
           <Image
@@ -58,7 +56,7 @@ const InterfaceUser = ({ navigation }) => {
           <TouchableOpacity style={styles.ViewObject1} onPress={toScan}>
             <Image
               source={require("../assets/images/qr.png")}
-              style={styles.ImageIconStyle2}
+              style={styles.ImageIconStyle}
             />
           </TouchableOpacity>
 
@@ -68,43 +66,14 @@ const InterfaceUser = ({ navigation }) => {
         <View>
           <TouchableOpacity style={styles.ViewObject2} onPress={OrderList}>
             <Image
-              source={require("../assets/images/book.png")}
-              style={styles.ImageIconStyle3}
+              source={require("../assets/images/bloc.png")}
+              style={styles.ImageIconStyle}
             />
           </TouchableOpacity>
 
           <Text style={styles.TextStyle}> Orders </Text>
         </View>
-      </View>
-      {/* <View style={styles.FourthView}>
-        <View>
-          <TouchableOpacity
-            style={styles.ViewObject3}
-            // onPress={() => navigation.navigate("RecyclingHistory")}
-          >
-            <Image
-              source={require("../assets/images/reciclaje.png")}
-              style={styles.ImageIconStyle4}
-            />
-          </TouchableOpacity>
-
-          <Text style={styles.TextStyle}>Recycling History</Text>
-        </View>
-
-        <View>
-          <TouchableOpacity
-            style={styles.ViewObject4}
-            // onPress={() => navigation.navigate("GetTransaccions")}
-          >
-            <Image
-              source={require("../assets/images/transacciones.png")}
-              style={styles.ImageIconStyle5}
-            />
-          </TouchableOpacity>
-
-          <Text style={styles.TextStyle}>Transaccions</Text>
-        </View>
-      </View> */}
+      </View>      
     </View>
   );
 };
@@ -136,18 +105,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     marginTop: 80,
   },
-  FourthView: {
-    flex: 4,
+
+  ViewFindBar: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginBottom: 100,
-    marginTop: 40,
-  },
-
-  ViewBalance: {
-    flexDirection: "row",
-    alignItems: "center",
     borderRadius: 20,
     backgroundColor: "#E34C36",    
     width: 320,
@@ -179,57 +141,9 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 
-  ViewObject3: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    backgroundColor: "#FF988B",
-    fontWeight: "bold",
-    fontSize: 20,
-    width: 150,
-    height: 130,
-    padding: 5,
-  },
-
-  ViewObject4: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    backgroundColor: "#CB1700",
-    fontWeight: "bold",
-    fontSize: 20,
-    width: 150,
-    height: 130,
-    padding: 5,
-  },
   ImageIconStyle: {
-    width: 90,
-    height: 80,
-    margin: 10,
-  },
-  ImageIconStyle: {
-    margin: 18
-    
-  },
-
-  ImageIconStyle2: {
-    width: 70,
-    height: 70,
-  },
-
-  ImageIconStyle3: {
-    width: 120,
-    height: 95,
-  },
-
-  ImageIconStyle4: {
-    width: 65,
-    height: 90,
-  },
-
-  ImageIconStyle5: {
-    width: 107,
-    height: 55,
+    width: 100,
+    height: 100,
   },
 
   TextStyle: {

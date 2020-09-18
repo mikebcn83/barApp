@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,52 +6,50 @@ import {
   FlatList,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import Modal from "react-native-modal";
+import firebase from "@firebase/app";
+import { getUser } from "../../firebase/authFirebase";
+import { useSelector } from "react-redux";
 
-const OrderList = ({ navigation }) => {
-  const [tab, setTab] = useState(0);
-  const [orderItem, setOrderItem] = useState([
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-    { name: "Patatas", price: 12 },
-  ]);
-  const [orderList, setOrderList] = useState([
-    { bar: "McDonals", total: 44 },
-    { bar: "BurgerKing", total: 33 },
-  ]);
+const OrderList = () => {
+  const data = useSelector((state) => state);
+  const { orders } = data;
+  const [orderItem, setOrderItem] = useState([""]);
+  const [orderList, setOrderList] = useState(null);
   const [modal, setModal] = useState(false);
 
-  const openModal = (item) => {
-    setModal(!modal);
+
+  useEffect(() => {
+    setOrderList(orders);
+  }, [orders]);
+
+  const getUserMenu = async (id) => {
+    const snapshot = await firebase
+      .firestore()
+      .collection(`/clients/${getUser()}/orders/${id}/orderItems`)
+      .get();
+      setOrderItem(snapshot.docs.map((doc) => doc.data()))
   };
 
-  const FinishOrder = () => {
-    navigation.navigate("FinishOrder");
+  const openModal = (id) => {
+    getUserMenu(id)
+    setModal(!modal);       
   };
+
+
 
   const RenderModal = () => {
-    return (
+    return (orderItem ? (
       <View style={styles.modalContent}>
         <FlatList
           style={{ backgroundColor: "white" }}
           data={orderItem}
           renderItem={({ item }) => (
             <View style={styles.flatListView}>
-              <View style={styles.flatListItem}>
-                <View style={styles.item}>
-                  <Text style={styles.textItem}>
-                    {item.name} · {item.price} €
-                  </Text>
-                  <Text style={styles.textPrice}>Note: Poco hecho</Text>
-                </View>
-              </View>
+              <Text style={styles.textItem}>{item.name}</Text>
+              <Text style={styles.textPrice}>{item.price} €</Text>
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}
@@ -62,14 +60,18 @@ const OrderList = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    ) : (
+      <View style={styles.activityIndicatorView}>
+        <ActivityIndicator size="large" color="#df5c4a" />
+      </View>
+    ));
   };
 
-  return (
+  return orderList != null ? (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
       <View style={styles.headerBottomScreen}>
-        <Text style={styles.stylesTextPrice}> Order List </Text>
+        <Text style={styles.stylesTextPrice}> Orders List </Text>
       </View>
       <FlatList
         style={{ backgroundColor: "white" }}
@@ -79,12 +81,10 @@ const OrderList = ({ navigation }) => {
             <Modal
               isVisible={modal}
               backdropColor={"#df5c4a"}
-              animationIn={"zoomInDown"}
-              animationOut={"zoomOutUp"}
-              animationInTiming={1000}
-              animationOutTiming={1000}
-              backdropTransitionInTiming={1000}
-              backdropTransitionOutTiming={1000}
+              animationInTiming={1500}
+              animationOutTiming={1500}
+              backdropTransitionInTiming={1500}
+              backdropTransitionOutTiming={1500}
             >
               <RenderModal></RenderModal>
             </Modal>
@@ -92,23 +92,20 @@ const OrderList = ({ navigation }) => {
             <TouchableOpacity
               style={styles.flatOrderListView}
               onPress={() => {
-                openModal(item);
+                openModal(item.id);
               }}
             >
-              <Text style={styles.textItem}>{item.bar}</Text>
-              <Text style={styles.textPrice}>{item.total} €</Text>
+              <Text style={styles.textItem}>{item.bar_name}</Text>
+              <Text style={styles.textPrice}>Total Bill:   {item.total} €</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={() => {
-                openModal(item);
-              }}
-            >
-              <Ionicons name="ios-add-circle" size={50} color="#df5c4a" />
-            </TouchableOpacity> */}
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+    </View>
+  ) : (
+    <View style={styles.activityIndicatorView}>
+      <ActivityIndicator size="large" color="#df5c4a" />
     </View>
   );
 };
@@ -122,6 +119,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+  },
+  activityIndicatorView: {
+    justifyContent: "center",
+    alignContent: "center",
+    flex: 1,
+  },
+  item: {
+    justifyContent: "space-between",
+    alignContent: "center",
   },
   button: {
     margin: 20,
@@ -145,26 +151,6 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     padding: 10,
-  },
-  modalItems: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    marginBottom: 20,
-  },
-  modalButtonsView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-  modalButtonStyle: {
-    backgroundColor: "#df5c4a",
-    borderRadius: 15,
-    padding: 7,
-  },
-  stylesTextModalButton: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
   },
   stylesTextPrice: {
     color: "white",

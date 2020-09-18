@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,26 +7,68 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+import { saveArray, subsPrice, cleanArray } from "../../redux/actions/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../../firebase/authFirebase";
 import { Ionicons } from "@expo/vector-icons";
+import { Snackbar } from "react-native-paper";
+import { _saveOrder } from "../Api/Apis";
+import { randomId } from "../UniqID";
 
-const FinishOrder = ({ navigation }) => {
-  const [tab, setTab] = useState(0);
-  const [orderList, setOrderList] = useState([
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-    
-  ]);
-  const [orderItem, setOrderItem] = useState(orderList);
+let index;
+let backupArray;
+
+const FinishOrder = ({ route, navigation }) => {
+  const [value] = useState(route.params);
+  const [orderItem, setOrderItem] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [orderID] = useState(randomId(value.table));
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state);
+  const { items, price, barName } = data;
+
+  useEffect(() => {
+    setOrderItem(items);
+  }, [items, orderItem]);
 
   const FinishOrder = () => {
-    navigation.navigate("FinishOrder");
+    if (price != 0) {
+      _saveOrder(
+        value.id,
+        orderID,
+        orderItem,
+        getUser(),
+        price,
+        value.table,
+        barName
+      );
+      setVisible(true);
+    } else {
+      alert("You don't have anything to order.");
+    }
+  };
+
+  const itsDone = () => {
+    backupArray = [];
+    setVisible(false);
+    dispatch(cleanArray());
+    dispatch(subsPrice(price));
+    navigation.navigate("InterfaceUser");
+  };
+
+  const DeleteItem = async (item) => {
+    index = orderItem.indexOf(item);
+    orderItem.splice(index, 1);
+    console.log(orderItem)    
+    dispatch(saveArray(orderItem));
+    dispatch(subsPrice(item.price));
   };
 
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.stylesText}> Table 4 </Text>
+        <Text style={styles.stylesText}> Table {value.table} </Text>
       </View>
       <FlatList
         style={{ backgroundColor: "white" }}
@@ -38,13 +80,13 @@ const FinishOrder = ({ navigation }) => {
                 <Text style={styles.textItem}>
                   {item.name} · {item.price} €
                 </Text>
-                <Text style={styles.textPrice}>Note: Poco hecho</Text>
+                <Text style={styles.textPrice}>Note: {item.note}</Text>
               </View>
             </View>
 
             <TouchableOpacity
               onPress={() => {
-                openModal(item);
+                DeleteItem(item);
               }}
             >
               <Ionicons name="ios-close" size={40} color="#df5c4a" />
@@ -54,11 +96,31 @@ const FinishOrder = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.bottom}>
-        <Text style={styles.stylesTextPrice}> Total: 50,12€ </Text>
+        <Text style={styles.stylesTextPrice}> Total: {price} € </Text>
         <TouchableOpacity style={styles.button} onPress={FinishOrder}>
           <Text style={styles.stylesText}>Finish Order</Text>
         </TouchableOpacity>
       </View>
+      <Snackbar
+        visible={visible}
+        onDismiss={itsDone}
+        duration={1500}
+        theme={{
+          colors: {
+            onSurface: "rgba(0, 0, 0, 0.85)",
+            accent: "#df5c4a",
+            surface: "white",
+          },
+        }}
+        action={{
+          label: "Success",
+          onPress: () => {
+            itsDone;
+          },
+        }}
+      >
+        Order is complete
+      </Snackbar>
     </View>
   );
 };
@@ -69,7 +131,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#df5c4a",
     height: "8%",
-    alignItems: "center",    
+    alignItems: "center",
     justifyContent: "center",
   },
   bottom: {
@@ -84,8 +146,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
     padding: 15,
-    paddingTop:2,
-    paddingBottom:2,
+    paddingTop: 2,
+    paddingBottom: 2,
   },
   stylesTextPrice: {
     fontSize: 18,
@@ -96,22 +158,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  img: {
-    width: 75,
-    height: 75,
-  },
   item: {
     marginLeft: 20,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-  },
-  fab: {
-    width: 50,
-    height: 50,
-  },
-  buttonFab: {
-    width: 50,
-    height: 50,
   },
   flatListView: {
     height: 100,
@@ -132,20 +182,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  textItemModal: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   textPrice: {
     fontSize: 15,
     fontWeight: "bold",
     color: "#B4ACA5",
-  },
-  input: {
-    marginTop: 20,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: "#C9C9C4",
-    color: "#000000",
   },
 });

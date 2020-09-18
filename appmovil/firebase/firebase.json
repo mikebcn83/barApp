@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyC24VJm0IFagHLzLq4Z-yfesCijNAusE28",
+  "authDomain": "barapp-upc.firebaseapp.com",
+  "databaseURL": "https://barapp-upc.firebaseio.com",
+  "projectId": "barapp-upc",
+  "storageBucket": "barapp-upc.appspot.com",
+  "messagingSenderId": "116965075697",
+  "appId": "1:116965075697:web:01f531836403f24e60d750"
+  }

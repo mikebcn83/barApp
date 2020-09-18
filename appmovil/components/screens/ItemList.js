@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,40 +8,73 @@ import {
   Image,
   StatusBar,
   TextInput,
+  ActivityIndicator
 } from "react-native";
 import MaterialTabs from "react-native-material-tabs";
-import bravas from "../assets/images/bravas.png";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
+import { _useLoadMenu } from "../Api/Apis";
+import { useSelector, useDispatch } from "react-redux";
+import { saveArray, sumPrice} from "../../redux/actions/actions";
 
-const ItemList = ({ navigation }) => {
+let itemArray = [];
+
+const ItemList = ({ route, navigation }) => {
+  const [value] = useState(route.params);
+  const getStarters = _useLoadMenu(value, "starters");
+  const getMain = _useLoadMenu(value, "main");
+  const getDesserts = _useLoadMenu(value, "desserts");
+  const getDrinks = _useLoadMenu(value, "drinks");
   const [tab, setTab] = useState(0);
-  const [entrantes, setEntrantes] = useState([
-    { name: "Patatas", price: 12 },
-    { name: "Chipirones", price: 5 },
-  ]);
-  const [principal, setPrincipal] = useState([
-    { name: "Bistec", price: 7 },
-    { name: "Potaje", price: 8 },
-  ]);
-  const [postres, setPostres] = useState([
-    { name: "Tarta", price: 4 },
-    { name: "Helado", price: 5 },
-  ]);
-  const [bebidas, setBebidas] = useState([
-    { name: "Cerveza", price: 3 },
-    { name: "Vino", price: 4 },
-  ]);
-  const [orderItem, setOrderItem] = useState(entrantes);
+  const [starters, setStarters] = useState([""]);
+  const [main, setMain] = useState([""]);
+  const [desserts, setDesserts] = useState([""]);
+  const [drinks, setDrinks] = useState([""]);
+  const [orderItem, setOrderItem] = useState("");
   const [modal, setModal] = useState(false);
-  const [textInputModal, setTextInputModal] = useState(false);
   const [nameItem, setNameItem] = useState("");
   const [priceItem, setPriceItem] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [noteItem, setNoteItem] = useState("");
+  const [textInputModal, setTextInputModal] = useState(false);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state);
+  const { items, price } = data;
+
+  useEffect(() => {
+    setStarters(getStarters);
+    setMain(getMain);
+    setDesserts(getDesserts);
+    setDrinks(getDrinks);
+    setOrderItem(starters);
+    itemArray = items;
+  }, [getStarters, getDrinks]);
+
+  const showTab = (tab) => {
+    setTab(tab);
+
+    switch (tab) {
+      case 0:
+        setOrderItem(starters);
+        break;
+      case 1:
+        setOrderItem(main);
+        break;
+      case 2:
+        setOrderItem(desserts);
+        break;
+      case 3:
+        setOrderItem(drinks);
+        break;
+    }
+  };
 
   const openModal = (item) => {
     setModal(!modal);
     setNameItem(item.name);
     setPriceItem(item.price);
+    setIngredients(item.ingredients);
+    setNoteItem("");
     setTextInputModal(false);
   };
 
@@ -49,84 +82,34 @@ const ItemList = ({ navigation }) => {
     setTextInputModal(!textInputModal);
   };
 
-  const RenderModal = () => {
-    return (
-      <View style={styles.modalContent}>
-        <View style={styles.modalItems}>
-          <Text style={styles.textItemModal}>{nameItem} · </Text>
-          <Text style={styles.textItemModal}>{priceItem} € </Text>
-        </View>
-        <Text>Ingredientes: Patata con salsa Bravas y picante </Text>
-        {textInputModal == false ? null : (
-          <TextInput
-            style={styles.input}
-            placeholder="Add note for the Cook"
-            placeholderTextColor="#B4ACA5"
-            editable
-            maxLength={50}
-            multiline
-            numberOfLines={3}
-          />
-        )}
-
-        <View style={styles.modalButtonsView}>
-          <TouchableOpacity
-            style={styles.modalButtonStyle}
-            onPress={() => {
-              openModal("");
-            }}
-          >
-            <Text style={styles.stylesTextModalButton}>Cancel</Text>
-          </TouchableOpacity>
-          {textInputModal == true ? null : (
-            <TouchableOpacity
-              style={styles.modalButtonStyle}
-              onPress={openTextInput}
-            >
-              <Text style={styles.stylesTextModalButton}>Add note</Text>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity
-            style={styles.modalButtonStyle}
-            onPress={() => {
-              openModal("");
-            }}
-          >
-            <Text style={styles.stylesTextModalButton}>Confirm Order</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
-  const showTab = (tab) => {
-    setTab(tab);
-
-    switch (tab) {
-      case 0:
-        setOrderItem(entrantes);
-        break;
-      case 1:
-        setOrderItem(principal);
-        break;
-      case 2:
-        setOrderItem(postres);
-        break;
-      case 3:
-        setOrderItem(bebidas);
-        break;
-    }
+  const saveOrderList = () => {
+    itemArray.push({
+      name: nameItem,
+      price: priceItem,
+      note: noteItem,
+      done: false,
+    });
+    dispatch(saveArray(itemArray));
+    dispatch(sumPrice(priceItem));
+    openModal("");
   };
 
   const FinishOrder = () => {
-    navigation.navigate("FinishOrder");
+    if (price === 0) {
+      alert("You have not select any plate");
+    } else {
+      navigation.navigate("FinishOrder", {
+        table: value.table,
+        id: value.id,
+      });
+    }
   };
 
-  return (
+  return starters ? (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
       <View style={styles.headerBottomScreen}>
-        <Text style={styles.stylesTextPrice}> Table 4 </Text>
+        <Text style={styles.stylesTextPrice}> Table {value.table} </Text>
       </View>
       <View style={styles.firstView}>
         <MaterialTabs
@@ -152,14 +135,70 @@ const ItemList = ({ navigation }) => {
                 backdropColor={"#df5c4a"}
                 animationIn={"zoomInDown"}
                 animationOut={"zoomOutUp"}
-                animationInTiming={1000}
-                animationOutTiming={1000}
-                backdropTransitionInTiming={1000}
-                backdropTransitionOutTiming={1000}
+                animationInTiming={500}
+                animationOutTiming={500}
+                backdropTransitionInTiming={500}
+                backdropTransitionOutTiming={500}
               >
-                <RenderModal></RenderModal>
+                <View style={styles.modalContent}>
+                  <View style={styles.modalItems}>
+                    <Text style={styles.textItemModal}>{nameItem} · </Text>
+                    <Text style={styles.textItemModal}>{priceItem} € </Text>
+                  </View>
+                  {ingredients == undefined ? null : (
+                    <Text style={styles.textIngredient}>
+                      Ingredientes: {ingredients}{" "}
+                    </Text>
+                  )}
+                  {textInputModal == false ? null : (
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Add note for the Cook"
+                      placeholderTextColor="#B4ACA5"
+                      maxLength={50}
+                      multiline
+                      numberOfLines={3}
+                      onChangeText={(text) => setNoteItem(text)}
+                      onSubmitEditing={saveOrderList}
+                    />
+                  )}
+
+                  <View style={styles.modalButtonsView}>
+                    <TouchableOpacity
+                      style={styles.modalButtonStyle}
+                      onPress={() => {
+                        openModal("");
+                      }}
+                    >
+                      <Text style={styles.stylesTextModalButton}>Cancel</Text>
+                    </TouchableOpacity>
+                    {textInputModal == true ? null : (
+                      <TouchableOpacity
+                        style={styles.modalButtonStyle}
+                        onPress={openTextInput}
+                      >
+                        <Text style={styles.stylesTextModalButton}>
+                          Add Note
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                    <TouchableOpacity
+                      style={styles.modalButtonStyle}
+                      onPress={saveOrderList}
+                    >
+                      <Text style={styles.stylesTextModalButton}>
+                        Select Item
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </Modal>
-              <Image style={styles.img} source={bravas} />
+              <Image
+                style={styles.img}
+                source={{
+                  uri: item.imageUri,
+                }}
+              />
               <View style={styles.item}>
                 <Text style={styles.textItem}>{item.name}</Text>
                 <Text style={styles.textPrice}>{item.price} €</Text>
@@ -179,10 +218,14 @@ const ItemList = ({ navigation }) => {
       />
       <View style={styles.headerBottomScreen}>
         <TouchableOpacity style={styles.button} onPress={FinishOrder}>
-          <Text style={styles.stylesText}>Finish Order</Text>
+          <Text style={styles.stylesText}>Confirm Order</Text>
         </TouchableOpacity>
-        <Text style={styles.stylesTextPrice}> Total: 50,12€ </Text>
+        <Text style={styles.stylesTextPrice}> Total: {price} € </Text>
       </View>
+    </View>
+  ) : (
+    <View style={styles.activityIndicatorView}>
+      <ActivityIndicator size="large" color="#df5c4a" />
     </View>
   );
 };
@@ -190,6 +233,11 @@ const ItemList = ({ navigation }) => {
 export default ItemList;
 
 const styles = StyleSheet.create({
+  activityIndicatorView: {
+    justifyContent: "center",
+    alignContent: "center",
+    flex: 1,
+  },
   headerBottomScreen: {
     backgroundColor: "#df5c4a",
     height: "8%",
@@ -200,8 +248,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     padding: 15,
-    paddingTop:2,
-    paddingBottom:2,
+    paddingTop: 2,
+    paddingBottom: 2,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -280,8 +328,11 @@ const styles = StyleSheet.create({
     color: "black",
   },
   textItemModal: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
+  },
+  textIngredient: {
+    fontSize: 15,
   },
   textPrice: {
     fontSize: 20,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -6,74 +6,84 @@ import {
   FlatList,
   StyleSheet,
   StatusBar,
+  ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { _useGetBars } from "../Api/Apis";
+import firebase from "@firebase/app";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const FindBar = ({ navigation }) => {
-  const [dataSource, setDataSource] = useState([
-    "Bar Tito",
-    "Bar Tolo",
-    "Pepe's Bar",
-    "McDonals",
-    "Casa Fuster",
-  ]);
-  const [dataBackup] = useState([
-    "Bar Tito",
-    "Bar Tolo",
-    "Pepe's Bar",
-    "McDonals",
-    "Casa Fuster",
-  ]);
+  const [bars, loading, error] = useCollectionData(
+    firebase.firestore().collection("bars"),    
+  );
+
+  const [dataBackup, setDataBackup] = useState([""]);
+
+  const [dataSource, setDataSource] = useState([""]);
+
+  useEffect(() => {
+    setDataSource(bars);
+    setDataBackup(bars);
+  }, [bars]);
 
   const filterList = (text) => {
-    
     let newData = "";
     newData = dataBackup.filter((item) => {
-      let itemData = item.toLowerCase();
+      let itemData = item.name.toLowerCase();
       let textData = text.toLowerCase();
       return itemData.indexOf(textData) > -1;
     });
     setDataSource(newData);
   };
 
-  const ItemList = () => {
-    navigation.navigate("ItemList");
-  };
-
-  return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.firstView}>
-        <View style={styles.findBar}>
-          <Icon name={"ios-search"} style={{ fontSize: 25 }} />
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor="#C9C9C4"
-            style={styles.stylesText}
-            onChangeText={(text) => {
-              filterList(text);
-            }}
-          />
-        </View>
+  if (error) {
+    return <Text>Error: {JSON.stringify(errorLinks)}</Text>;
+  }
+  if (loading) {
+    return (
+      <View style={styles.activityIndicatorView}>
+        <ActivityIndicator size="large" color="#df5c4a" />
       </View>
-      <FlatList
-        style={{ backgroundColor: "white" }}
-        data={dataSource}
-        renderItem={({ item }) => (
-          <View style={styles.flatListView}>
-            <TouchableOpacity
-              style={styles.flatOrderListView}
-              onPress={ItemList}
-            >
-              <Text style={styles.textItem}>{item}</Text>
-            </TouchableOpacity>
+    );
+  }
+
+  if (bars) {
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.firstView}>
+          <View style={styles.findBar}>
+            <Icon name={"ios-search"} style={{ fontSize: 25 }} />
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor="#C9C9C4"
+              style={styles.stylesText}
+              onChangeText={(text) => {
+                filterList(text);
+              }}
+            />
           </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    </View>
-  );
+        </View>
+        <FlatList
+          style={{ backgroundColor: "white" }}
+          data={dataSource}
+          renderItem={({ item }) => (
+            <View style={styles.flatListView}>
+              <TouchableOpacity
+                style={styles.flatOrderListView}                
+              >
+                <Text style={styles.textItem}>{item.name}</Text>
+                <Text style={styles.addressItem}>{item.address}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
+    );
+  }
 };
 
 export default FindBar;
@@ -84,6 +94,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#E34C36",
     justifyContent: "center",
     paddingHorizontal: 10,
+  },
+  activityIndicatorView: {
+    justifyContent: "center",
+    alignContent: "center",
+    flex: 1,
   },
   findBar: {
     height: 50,
@@ -112,5 +127,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: "black",
-  }
+  },
+  addressItem: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#B4ACA5",
+  },
 });

@@ -1,36 +1,58 @@
 import types from "../actions/types";
 
 const initialState = {
-  AllPokemons: [],
-  loading: false,
-  error: null,
+  items: [],
+  price: 0,
+  orders: [],
+  barName: "",
 };
 
-const pokeReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.LOAD_STARTED: {
+    case types.SAVE_ARRAY: {
       return {
         ...state,
-        error: null,
-        loading: true,
+        items: action.payload
       };
     }
-    case types.LOAD_FAILED: {
+    case types.CLEAN_ARRAY: {
       return {
         ...state,
-        loading: false,
-        error: action.payload,
+        items: []
       };
     }
-    case types.LOAD_SUCCEEDED: {
+    case types.SUM_PRICE: {
       return {
         ...state,
-        loading: false,
-        AllPokemons: action.payload,
+        price: state.price + action.sum,
+      };
+    }
+    case types.SUBS_PRICE: {
+      return {
+        ...state,
+        price: state.price - action.substration,
+      };
+    }
+    case types.CHECK_ORDERS: {
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    }
+    case types.CLEAN_ORDERS: {
+      return {
+        ...state,
+        orders: [],
+      };
+    }
+    case types.SAVE_BARNAME: {
+      return {
+        ...state,
+        barName: action.payload,
       };
     }
   }
   return state;
 };
 
-export default pokeReducer;
+export default reducer;
