@@ -33,7 +33,7 @@ export default function PlateForm({ type, username }) {
         let numPrice = Number(price);
         firebase.firestore().doc(`/bars/${username}/menu/itemsList/${type}/${id}`).set({
             name,
-            numPrice,
+            price: numPrice,
             ingredients,
             imageUri
         }).catch(e => {
@@ -66,12 +66,12 @@ export default function PlateForm({ type, username }) {
                 <label>
                     <input type="text" placeholder="Plate name" ref={nameRef} onChange={(name) =>
                         setName(name.target.value)} required /><span className="redS" />
-                    <input type="number" step="0.01" placeholder="price" ref={priceRef} onChange={(price) =>
+                    <input type="number" placeholder="price" ref={priceRef} onChange={(price) =>
                         setPrice(price.target.value)} required /> €
                 </label>
                 <textarea className="ingredients" type="text" placeholder="Plate description" ref={ingredientsRef} onChange={(ingredients) =>
                     setIngredients(ingredients.target.value)} required />
-                <label className="laimage">
+                <label className="laimage" required>
                     Plate image
             </label>
                 <input className="inimage" type="file" onChange={handleChange} ref={imageRef} />

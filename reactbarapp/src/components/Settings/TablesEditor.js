@@ -10,7 +10,7 @@ function QRs({ username, tables }) {
     for (let i = 0; i < tables; i++) {
         qrs.push(<div className="tableqr" key={i + 1}>
             <h3>Table {i + 1}</h3>
-            <QRCode value={`https://www.barapp.com/${username}/tables/${i + 1}`} />
+            <QRCode value={`https://www.barapp.com/${username}/${i + 1}`} />
         </div>);
     }
 
