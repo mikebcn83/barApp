@@ -22,7 +22,7 @@ export default function PlateForm({ type, username }) {
     const randomId = () => {
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
-        let result="";
+        let result = "";
         for (var i = 0; i < 20; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
@@ -30,9 +30,10 @@ export default function PlateForm({ type, username }) {
     }
 
     const registerPlate = (id, type, name, price, ingredients) => {
+        let numPrice = Number(price);
         firebase.firestore().doc(`/bars/${username}/menu/itemsList/${type}/${id}`).set({
             name,
-            price,
+            numPrice,
             ingredients,
             imageUri
         }).catch(e => {
@@ -65,14 +66,8 @@ export default function PlateForm({ type, username }) {
                 <label>
                     <input type="text" placeholder="Plate name" ref={nameRef} onChange={(name) =>
                         setName(name.target.value)} required /><span className="redS" />
-                    <input type="text" placeholder="price" ref={priceRef} maxLength="4" onChange={(pr) => { 
-                        let characters = '.0123456789'; //filtro para que solo contenga numeros y punto
-                        if (pr.target.value.length > 0) {
-                            if (characters.includes(pr.target.value.substr(pr.target.value.length - 1))) {
-                                setPrice(pr.target.value)
-                            } else priceRef.current.value = price;
-                            }
-                        }} required /> €
+                    <input type="number" step="0.01" placeholder="price" ref={priceRef} onChange={(price) =>
+                        setPrice(price.target.value)} required /> €
                 </label>
                 <textarea className="ingredients" type="text" placeholder="Plate description" ref={ingredientsRef} onChange={(ingredients) =>
                     setIngredients(ingredients.target.value)} required />
